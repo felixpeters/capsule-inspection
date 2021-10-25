@@ -1,6 +1,6 @@
 # Capsule inspection
 
-![CI](https://github.com/felixpeters/capsule-detection/actions/workflows/test.yaml/badge.svg)
+[![CI](https://github.com/felixpeters/capsule-inspection/actions/workflows/test.yaml/badge.svg)](https://github.com/felixpeters/capsule-inspection/actions/workflows/test.yaml)
 
 Visual inspection for the pharmaceutical industry using convolutional neural networks.
 
