@@ -19,8 +19,7 @@ def create_data_table(path: Path) -> wandb.Table:
     neg_imgs = [Image.open(f) for f in (path/"negative/data").iterdir()]
     pos_fns = [f.name for f in (path/"positive/data").iterdir()]
     neg_fns = [f.name for f in (path/"negative/data").iterdir()]
-    img_size = neg_imgs[0].size
-    neg_masks = [Image.new("RGB", img_size) for _ in neg_imgs]
+    neg_masks = [Image.new("RGB", neg_imgs[0].size) for _ in neg_imgs]
 
     ids = list(range(len(pos_imgs) + len(neg_imgs)))
     fns = pos_fns + neg_fns
@@ -31,5 +30,4 @@ def create_data_table(path: Path) -> wandb.Table:
         id, fn, img, mask, label) in zip(ids, fns, imgs, masks, labels)]
 
     columns = ["id", "filename", "image", "mask", "label"]
-    table = wandb.Table(data=data, columns=columns)
-    return table
+    return wandb.Table(data=data, columns=columns)

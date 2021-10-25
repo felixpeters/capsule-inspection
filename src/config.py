@@ -1,3 +1,7 @@
+#pylint: skip-file
+"""All things config, e.g., constants and hyperparameters."""
+
+
 class URLs():
     """Global constants for dataset URLs."""
     SENSUM_SODF = "https://www.sensum.eu/resources/SensumSODF.7z"
