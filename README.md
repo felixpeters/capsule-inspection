@@ -1,5 +1,7 @@
 # Capsule inspection
 
+![CI](https://github.com/felixpeters/capsule-detection/actions/workflows/test.yaml/badge.svg)
+
 Visual inspection for the pharmaceutical industry using convolutional neural networks.
 
 ## Links
