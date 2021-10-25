@@ -1,6 +1,7 @@
 astroid==2.8.3
 attrs==21.2.0
 blis==0.7.5
+Brotli==1.0.9
 catalogue==2.0.6
 certifi==2021.10.8
 charset-normalizer==2.0.7
@@ -9,7 +10,7 @@ codecov==2.1.12
 coverage==6.0.2
 cycler==0.10.0
 cymem==2.0.6
-fastai==2.5.2
+fastai==2.5.3
 fastcore==1.3.26
 fastdownload==0.0.5
 fastprogress==1.0.0
@@ -23,6 +24,7 @@ lazy-object-proxy==1.6.0
 MarkupSafe==2.0.1
 matplotlib==3.4.3
 mccabe==0.6.1
+multivolumefile==0.2.3
 murmurhash==1.0.6
 mypy==0.910
 mypy-extensions==0.4.3
@@ -35,14 +37,19 @@ platformdirs==2.4.0
 pluggy==1.0.0
 preshed==3.0.6
 py==1.10.0
+py7zr==0.16.2
+pybcj==0.5.0
+pycryptodomex==3.11.0
 pydantic==1.8.2
 pylint==2.11.1
-pyparsing==2.4.7
+pyparsing==3.0.1
+pyppmd==0.17.1
 pytest==6.2.5
 pytest-cov==3.0.0
 python-dateutil==2.8.2
 pytz==2021.3
 PyYAML==6.0
+pyzstd==0.15.0
 requests==2.26.0
 scikit-learn==1.0
 scipy==1.7.1
@@ -51,6 +58,7 @@ smart-open==5.2.1
 spacy==3.1.3
 spacy-legacy==3.0.8
 srsly==2.4.2
+texttable==1.6.4
 thinc==8.0.11
 threadpoolctl==3.0.0
 toml==0.10.2

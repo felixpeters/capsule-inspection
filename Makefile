@@ -7,7 +7,6 @@ setup:
 clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
-	find . -name '*~' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -fr {} +
 
 clean-test:
@@ -17,7 +16,7 @@ clean-test:
 clean: clean-pyc clean-test
 
 test: clean
-	. .venv/bin/activate && py.test tests --cov=src --cov-report=term-missing --cov-fail-under 95
+	. .venv/bin/activate && pytest --cov=src --cov-report=term-missing --cov-fail-under 95
 
 mypy:
 	. .venv/bin/activate && mypy src
