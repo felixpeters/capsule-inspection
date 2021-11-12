@@ -4,6 +4,26 @@
 
 Visual inspection for the pharmaceutical industry using convolutional neural networks.
 
+## Proof of concept
+
+### Classification models
+
+Softgel classification model:
+
+- Model: ResNet18
+- Val. accuracy: 88.23%
+- Val. AUC: 0.9122
+
+Capsule classification model:
+
+- Model: ResNet18
+- Val. accuracy: 95.43%
+- Val. AUC: 0.8858
+
+### Segmentation models
+
+Trained UNet models with a ResNet18 backbone which achieved very low loss values on both datasets.
+
 ## Links
 
 Data:
