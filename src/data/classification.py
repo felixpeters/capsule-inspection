@@ -5,6 +5,7 @@ from pathlib import Path
 from pytorch_lightning import LightningDataModule
 from fastai.data.transforms import get_image_files
 from fastai.vision.data import ImageDataLoaders
+from fastai.vision.data import DataLoader
 
 from .download import DataDownloader
 
@@ -55,8 +56,10 @@ class SensumClassificationDataModule(LightningDataModule):
         """
         if stage in (None, "fit"):
             self.data_dir = self.downloader.get_data_dir()
-            pos_fnames = get_image_files(self.data_dir/"softgel/positive/data")
-            neg_fnames = get_image_files(self.data_dir/"softgel/negative/data")
+            pos_fnames = get_image_files(
+                self.data_dir/f"{self.task}/positive/data")
+            neg_fnames = get_image_files(
+                self.data_dir/f"{self.task}/negative/data")
             fnames = pos_fnames + neg_fnames
 
             def label_func(file_name: Path) -> bool:
@@ -66,8 +69,10 @@ class SensumClassificationDataModule(LightningDataModule):
             self.dls = ImageDataLoaders.from_path_func(
                 self.data_dir, fnames, label_func, bs=self.batch_size, seed=self.seed)
 
-    def train_dataloader(self):
+    def train_dataloader(self) -> DataLoader:
+        """Returns loader for training data."""
         return self.dls.train
 
-    def val_dataloader(self):
+    def val_dataloader(self) -> DataLoader:
+        """Returns loader for validation data."""
         return self.dls.valid
