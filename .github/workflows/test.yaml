@@ -11,4 +11,4 @@ jobs:
           python-version: 3.9
           architecture: x64
       - run: make setup
-      - run: make test
+      - run: make check
