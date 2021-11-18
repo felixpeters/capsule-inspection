@@ -21,7 +21,7 @@ mypy:
 	. .venv/bin/activate && mypy src
 
 lint:
-	. .venv/bin/activate && pylint src -j 4 --reports=y
+	. .venv/bin/activate && pylint src -j 4 --reports=y --fail-under=9
 
 docs: FORCE
 	cd docs; . .venv/bin/activate && sphinx-apidoc -o ./source ./src
