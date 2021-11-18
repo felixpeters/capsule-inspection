@@ -1,14 +1,20 @@
-from typing import Callable, Any
-from pathlib import Path
-
 from pytorch_lightning import LightningDataModule
 
+from .download import DataDownloader
 
-class ClassificationDataModule(LightningDataModule):
-    """Handles all things related to data preparation for model training."""
 
-    def __init__(self):
-        pass
+class SensumClassificationDataModule(LightningDataModule):
+    """Handles all things related to data preparation for training classification models."""
+
+    def __init__(self, task: str, downloader: DataDownloader, batch_size: int = 64):
+        super().__init__()
+        self.task = task
+        self.downloader = downloader
+        self.batch_size = batch_size
+
+        if self.task not in ["softgel", "capsule"]:
+            raise ValueError(
+                f"Task {self.task} is not supported for this dataset.")
 
     def setup(self):
         pass
@@ -20,4 +26,7 @@ class ClassificationDataModule(LightningDataModule):
         pass
 
     def test_dataloader(self):
+        pass
+
+    def predict_dataloader(self):
         pass
