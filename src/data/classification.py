@@ -63,9 +63,3 @@ class SensumClassificationDataModule(LightningDataModule):
 
     def val_dataloader(self):
         return self.dls.valid
-
-    def test_dataloader(self):
-        pass
-
-    def predict_dataloader(self):
-        pass

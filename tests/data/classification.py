@@ -39,6 +39,10 @@ def test_train_dataloader(classification_data_module):
     x, y = dl.one_batch()
     assert x.numpy().shape == (8, 3, 144, 144)
     assert y.numpy().shape == (8,)
+    assert (x.numpy() >= 0).all()
+    assert (x.numpy() <= 1).all()
+    assert (y.numpy() >= 0).all()
+    assert (y.numpy() <= 1).all()
 
 
 def test_valid_dataloader(classification_data_module):
@@ -46,3 +50,7 @@ def test_valid_dataloader(classification_data_module):
     x, y = dl.one_batch()
     assert x.numpy().shape == (8, 3, 144, 144)
     assert y.numpy().shape == (8,)
+    assert (x.numpy() >= 0).all()
+    assert (x.numpy() <= 1).all()
+    assert (y.numpy() >= 0).all()
+    assert (y.numpy() <= 1).all()
