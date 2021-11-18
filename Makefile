@@ -15,7 +15,7 @@ clean-test:
 clean: clean-pyc clean-test
 
 test: clean
-	. .venv/bin/activate && pytest --cov=src --cov-report=term-missing --cov-fail-under 95
+	. .venv/bin/activate && pytest --cov=src --cov-report=term-missing --cov-fail-under 95 --disable-pytest-warnings
 
 mypy:
 	. .venv/bin/activate && mypy src
