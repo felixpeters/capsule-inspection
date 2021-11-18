@@ -10,7 +10,7 @@ shutil.register_archive_format(
 shutil.register_unpack_format('7zip', ['.7z'], unpack_7zarchive)
 
 
-def download_data(url: str, force_download: bool = False) -> Path:
+def download_from_url(url: str, force_download: bool = False) -> Path:
     """Downloads and extracts dataset from given URL.
 
     Args:
