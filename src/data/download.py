@@ -16,10 +16,10 @@ class DataDownloader(ABC):
 
     @abstractmethod
     def download(self):
-        pass
+        """Downloads data from given source."""
 
     def get_data_dir(self) -> Path:
-        pass
+        """Returns path to downloaded data."""
 
 
 class URLDownloader(DataDownloader):
@@ -30,7 +30,7 @@ class URLDownloader(DataDownloader):
 
         Args:
             url (str): URL to retrieve data from.
-            force_download (bool, optional): Force download even if data already exists. Defaults to False.
+            force_download (bool, optional): Override existing download. Defaults to False.
         """
         self.url = url
         self.force_download = force_download
@@ -45,5 +45,10 @@ class URLDownloader(DataDownloader):
         self.data_dir = untar_data(
             self.url, force_download=self.force_download)
 
-    def get_data_dir(self):
+    def get_data_dir(self) -> Path:
+        """Return path to data.
+
+        Returns:
+            Path: Path where data was extracted to.
+        """
         return self.data_dir

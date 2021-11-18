@@ -1,3 +1,4 @@
+"""Contains data modules for training capsule classification models."""
 from typing import Optional
 from pathlib import Path
 
@@ -11,14 +12,19 @@ from .download import DataDownloader
 class SensumClassificationDataModule(LightningDataModule):
     """Handles all things related to data preparation for training classification models."""
 
-    def __init__(self, task: str, downloader: DataDownloader, batch_size: int = 64, val_perc: float = 0.2, seed: int = 47):
+    def __init__(self,
+                 task: str,
+                 downloader: DataDownloader,
+                 batch_size: int = 64,
+                 val_perc: float = 0.2,
+                 seed: int = 47):
         """[summary]
 
         Args:
             task (str): Which dataset to use. Expects one of "capsule" or "softgel".
             downloader (DataDownloader): Downloader to use for retrieving data.
             batch_size (int, optional): Batch size to use in data loaders. Defaults to 64.
-            val_perc (float, optional): Percentage of data to be used for validation. Defaults to 0.2.
+            val_perc (float, optional): Share of data to be used for validation. Defaults to 0.2.
             seed (int, optional): Random seed to use for splitting data. Defaults to 47.
 
         Raises:
@@ -30,6 +36,8 @@ class SensumClassificationDataModule(LightningDataModule):
         self.batch_size = batch_size
         self.val_perc = val_perc
         self.seed = seed
+        self.data_dir = None
+        self.dls = None
 
         if self.task not in ["softgel", "capsule"]:
             raise ValueError(
@@ -51,8 +59,8 @@ class SensumClassificationDataModule(LightningDataModule):
             neg_fnames = get_image_files(self.data_dir/"softgel/negative/data")
             fnames = pos_fnames + neg_fnames
 
-            def label_func(fn: Path) -> bool:
-                image_class = str(fn).split("/")[-3]
+            def label_func(file_name: Path) -> bool:
+                image_class = str(file_name).split("/")[-3]
                 return image_class == "positive"
 
             self.dls = ImageDataLoaders.from_path_func(
