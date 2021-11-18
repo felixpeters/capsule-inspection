@@ -13,7 +13,7 @@ from fastai.callback.tracker import SaveModelCallback
 from PIL import Image
 
 SENSUM_SODF = "https://www.sensum.eu/resources/SensumSODF.7z"
-MODEL_PATH = Path("/workspace/experiments/models/softgel/segmentation").absolute()
+MODEL_PATH = Path("/workspace/experiments/models/capsule/segmentation").absolute()
 MODEL_PATH.mkdir(exist_ok=True, parents=True)
 BATCH_SIZE = 32
 NUM_EPOCHS = 10
@@ -27,9 +27,9 @@ shutil.register_unpack_format('7zip', ['.7z'], unpack_7zarchive)
 def label_func(fn):
     image_class = str(fn).split("/")[-3]
     if image_class == "positive":
-        return path/f"softgel/positive/annotation/{fn.stem}{fn.suffix}"
+        return path/f"capsule/positive/annotation/{fn.stem}{fn.suffix}"
 
-    neg_masks_path = path/"softgel/negative/annotation"
+    neg_masks_path = path/"capsule/negative/annotation"
     neg_masks_path.mkdir(exist_ok=True)
     mask_path = neg_masks_path/f"{fn.stem}{fn.suffix}"
 
@@ -44,8 +44,8 @@ def label_func(fn):
 
 path = untar_data(SENSUM_SODF)
 
-pos_fnames = get_image_files(path/"softgel/positive/data")
-neg_fnames = get_image_files(path/"softgel/negative/data")
+pos_fnames = get_image_files(path/"capsule/positive/data")
+neg_fnames = get_image_files(path/"capsule/negative/data")
 fnames = pos_fnames + neg_fnames
 
 dls = SegmentationDataLoaders.from_label_func(
