@@ -28,4 +28,4 @@ docs: FORCE
 	cd docs; . .venv/bin/activate && sphinx-build -b html ./source ./build
 FORCE:
 
-check: test lint mypy
+check: test lint
