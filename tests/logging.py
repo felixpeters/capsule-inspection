@@ -1,13 +1,14 @@
 import pytest
 
 from src.logging import create_data_table
-from src.data.download import download_from_url
+from src.data.download import URLDownloader
 from src.config import URLs
 
 
 @pytest.fixture
 def data_path():
-    path = download_from_url(URLs.SENSUM_SODF)
+    dl = URLDownloader(URLs.SENSUM_SODF)
+    path = dl.download()
     return path
 
 
