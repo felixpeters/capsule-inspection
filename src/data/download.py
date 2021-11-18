@@ -15,7 +15,10 @@ class DataDownloader(ABC):
     """Abstract base class for data downloaders."""
 
     @abstractmethod
-    def download(self) -> Path:
+    def download(self):
+        pass
+
+    def get_data_dir(self) -> Path:
         pass
 
 
@@ -31,6 +34,7 @@ class URLDownloader(DataDownloader):
         """
         self.url = url
         self.force_download = force_download
+        self.data_dir = None
 
     def download(self) -> Path:
         """Download and unpack data.
@@ -38,4 +42,8 @@ class URLDownloader(DataDownloader):
         Returns:
             Path: Path where data was extracted to.
         """
-        return untar_data(self.url, force_download=self.force_download)
+        self.data_dir = untar_data(
+            self.url, force_download=self.force_download)
+
+    def get_data_dir(self):
+        return self.data_dir

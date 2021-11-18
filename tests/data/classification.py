@@ -5,9 +5,13 @@ from src.data.classification import SensumClassificationDataModule
 from .download import sensum_downloader
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def classification_data_module(sensum_downloader):
-    return SensumClassificationDataModule("capsule", sensum_downloader, batch_size=8)
+    dm = SensumClassificationDataModule(
+        "capsule", sensum_downloader, batch_size=8)
+    dm.prepare_data()
+    dm.setup()
+    return dm
 
 
 def test_valid_init(sensum_downloader):
@@ -22,6 +26,23 @@ def test_invalid_init(sensum_downloader):
 
 
 def test_prepare_data(classification_data_module):
-    classification_data_module.prepare_data()
-    assert classification_data_module.data_dir.exists()
-    assert (classification_data_module.data_dir/"capsule").exists()
+    assert classification_data_module.downloader.data_dir.exists()
+    assert (classification_data_module.downloader.data_dir/"capsule").exists()
+
+
+def test_setup(classification_data_module):
+    assert len(classification_data_module.dls.loaders) == 2
+
+
+def test_train_dataloader(classification_data_module):
+    dl = classification_data_module.train_dataloader()
+    x, y = dl.one_batch()
+    assert x.numpy().shape == (8, 3, 144, 144)
+    assert y.numpy().shape == (8,)
+
+
+def test_valid_dataloader(classification_data_module):
+    dl = classification_data_module.val_dataloader()
+    x, y = dl.one_batch()
+    assert x.numpy().shape == (8, 3, 144, 144)
+    assert y.numpy().shape == (8,)

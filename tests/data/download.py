@@ -5,20 +5,21 @@ from src.data.download import URLDownloader
 from src.config import URLs
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def sensum_downloader():
     return URLDownloader(URLs.SENSUM_SODF)
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def data_path():
     downloader = URLDownloader(URLs.SENSUM_SODF)
-    path = downloader.download()
-    return path
+    downloader.download()
+    return downloader.get_data_dir()
 
 
 def test_url_downloader(sensum_downloader):
-    path = sensum_downloader.download()
+    sensum_downloader.download()
+    path = sensum_downloader.get_data_dir()
     assert path.exists()
     assert (path/"softgel").exists()
     assert (path/"capsule").exists()
