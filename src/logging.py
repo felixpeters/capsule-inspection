@@ -1,8 +1,9 @@
 """All functionality related to logging data and model artifacts in Weights & Biases."""
 from pathlib import Path
 
-from PIL import Image
+import numpy as np
 import wandb
+from PIL import Image
 
 
 def create_data_table(path: Path) -> wandb.Table:
@@ -14,20 +15,23 @@ def create_data_table(path: Path) -> wandb.Table:
     Returns:
         wandb.Table: Data table
     """
-    pos_imgs = [Image.open(f) for f in (path/"positive/data").iterdir()]
-    pos_masks = [Image.open(f) for f in (path/"positive/annotation").iterdir()]
-    neg_imgs = [Image.open(f) for f in (path/"negative/data").iterdir()]
-    pos_fns = [f.name for f in (path/"positive/data").iterdir()]
-    neg_fns = [f.name for f in (path/"negative/data").iterdir()]
-    neg_masks = [Image.new("RGB", neg_imgs[0].size) for _ in neg_imgs]
+    data = []
+    pos_fns = list((path/"positive/data").iterdir())
+    neg_fns = list((path/"negative/data").iterdir())
+    test_img = Image.open(neg_fns[0])
+    img_size = test_img.size
+    test_img.close()
+    for idx, file_name in enumerate(pos_fns):
+        img = wandb.Image(str(file_name))
+        mask = wandb.Image(str(path/f"positive/annotation/{file_name.name}"))
+        row = [idx, file_name.name, img, mask, "positive"]
+        data.append(row)
 
-    ids = list(range(len(pos_imgs) + len(neg_imgs)))
-    fns = pos_fns + neg_fns
-    imgs = pos_imgs + neg_imgs
-    masks = pos_masks + neg_masks
-    labels = ["positive"] * len(pos_imgs) + ["negative"] * len(neg_imgs)
-    data = [[id, fn, wandb.Image(img), wandb.Image(mask), label] for (
-        id, fn, img, mask, label) in zip(ids, fns, imgs, masks, labels)]
+    for idx, file_name in enumerate(neg_fns, start=len(pos_fns)):
+        img = wandb.Image(str(file_name))
+        mask = wandb.Image(np.zeros(img_size))
+        row = [idx, file_name.name, img, mask, "negative"]
+        data.append(row)
 
     columns = ["id", "filename", "image", "mask", "label"]
     return wandb.Table(data=data, columns=columns)
