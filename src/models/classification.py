@@ -1,4 +1,4 @@
-from typing import Sequence, Tuple
+from typing import Dict, Sequence, Tuple
 
 import pytorch_lightning as pl
 import torch
@@ -37,7 +37,8 @@ class CapsuleClassificationModel(pl.LightningModule):
         Returns:
            torch.Tensor: Output tensor
         """
-        return self.model(x)
+        output = self.model(x)
+        return F.softmax(output, dim=1)
 
     def training_step(self, batch: Sequence[torch.Tensor], batch_idx: int) -> Dict:
         """The complete training loop.
