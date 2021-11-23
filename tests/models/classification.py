@@ -22,3 +22,24 @@ def test_forward(classification_model):
     assert (output <= 1).all()
     sums = output.sum(axis=1)
     np.testing.assert_allclose(sums, np.ones(sums.shape), rtol=1e-06)
+
+
+def test_configure_optimizers(classification_model):
+    optimizer = classification_model.configure_optimizers()
+    assert len(optimizer.param_groups) == 1
+    for param_group in optimizer.param_groups:
+        assert param_group["lr"] == 1e-04
+
+
+def test_training_step(classification_model):
+    batch = (torch.rand((4, 3, 16, 16)), torch.ones((4,), dtype=torch.long))
+    loss = classification_model.training_step(
+        batch, 1)["loss"].detach().numpy()
+    assert (loss >= 0).all()
+
+
+def test_validation_step(classification_model):
+    batch = (torch.rand((4, 3, 16, 16)), torch.ones((4,), dtype=torch.long))
+    loss = classification_model.validation_step(
+        batch, 1)["val_loss"].detach().numpy()
+    assert (loss >= 0).all()
